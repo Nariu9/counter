@@ -1,0 +1,14 @@
+.counter {
+    margin: 15px auto 0 auto;
+    width: 220px;
+    height: 100px;
+    background: darkturquoise;
+    color: black;
+    font-size: 4rem;
+    border-radius: 5px;
+}
+
+
+.red {
+    color: red;
+}
