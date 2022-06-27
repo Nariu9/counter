@@ -7,8 +7,8 @@ type CounterType = {
 }
 
 export const Counter = (props: CounterType) => {
-    return <div
-        className={`${classes.counter} ${props.count === props.max && classes.red}`}>{props.count}</div>
+    return <span
+        className={`${classes.counter} ${props.count === props.max && classes.red}`}>{props.count}</span>
 }
 
 // className={`${classes.counter} ${props.count === props.max && classes.red}`} // Anna's code
