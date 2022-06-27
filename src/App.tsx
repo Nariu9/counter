@@ -11,7 +11,7 @@ function App() {
     const [max, setMax] = useState<number>(0)
     const [count, setCount] = useState<number>(start)
     const [error, setError] = useState<string>('')
-    const [settings, setSettings] = useState<boolean>(true)
+    const [settings, setSettings] = useState<boolean>(false)
 
 
     useEffect(() => {
@@ -46,7 +46,7 @@ function App() {
     const maxValueHandler = (value: number) => {
         setSettings(true)
         setMax(value)
-        if (value < 0 || value <= start) {
+        if (value < 0 || value <= start || start < 0) {
             setError('Incorrect value!')
             return
         }
@@ -56,7 +56,7 @@ function App() {
     const startValueHandler = (value: number) => {
         setSettings(true)
         setStart(value)
-        if (value < 0 || value >= max) {
+        if (value < 0 || value >= max || max < 0) {
             setError('Incorrect value!')
             return
         }
@@ -81,7 +81,7 @@ function App() {
                     </div>
                 </div>
                 <div className={classes.buttonContainer}>
-                    <Button title={'set'} callback={setValuesHandler} disabled={!!error || start > max || start < 0 || !settings }/>
+                    <Button title={'set'} callback={setValuesHandler} disabled={!!error || !settings}/>
                 </div>
             </div>
 
