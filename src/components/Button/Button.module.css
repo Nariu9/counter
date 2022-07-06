@@ -19,4 +19,11 @@
     background: lightslategray;
     border: lightslategray;
     cursor: auto;
+    pointer-events: none;
+}
+
+.myButton:active {
+    color: darkturquoise;
+    background: #2A2C35;
+    border: none;
 }
