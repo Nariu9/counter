@@ -8,19 +8,13 @@ type ButtonPropsType = {
     className?: string
 }
 
-export const Button = (props: ButtonPropsType) => {
+export const Button = ({title, callback, disabled, className}: ButtonPropsType) => {
 
-    const onclickHandler = () => {
-        props.callback()
-    }
+    const onclickHandler = () => callback()
 
-
-    return (
-        <button onClick={onclickHandler}
-                className={`${classes.myButton} ${props.className ? props.className : ''}`}
-                disabled={props.disabled}>{props.title}
-        </button>
-    );
+    return <button onClick={onclickHandler}
+                   disabled={disabled}
+                   className={`${classes.myButton} ${className ? className : ''}`}>{title}</button>
 };
 
 // className={`${classes.myButton} ${props.className && props.className}`}  // если класс не приходит, остаётся строка false, что не ок!

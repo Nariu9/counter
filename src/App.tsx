@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import classes from "./App.module.css";
-import {Button} from "./components/Button/Button";
+import {CounterSettings} from "./components/CounterSettings/CounterSettings";
 import {Counter} from "./components/Counter/Counter";
-import {NumberInput} from "./components/NumberInput/NumberInput";
 
 
 function App() {
@@ -11,7 +10,7 @@ function App() {
     const [max, setMax] = useState<number>(0)
     const [count, setCount] = useState<number>(start)
     const [error, setError] = useState<string>('')
-    const [settings, setSettings] = useState<boolean>(false)
+    const [editMode, setEditMode] = useState<boolean>(false)
 
 
     useEffect(() => {
@@ -21,30 +20,29 @@ function App() {
         maxString && setMax(JSON.parse(maxString))
         const countString = localStorage.getItem('startValue')
         countString && setCount(JSON.parse(countString))
+        const errorString = localStorage.getItem('errorValue')
+        errorString && setError(errorString)
     }, [])
 
     useEffect(() => {
         localStorage.setItem('startValue', JSON.stringify(start))
         localStorage.setItem('maxValue', JSON.stringify(max))
         localStorage.setItem('countValue', JSON.stringify(count))
-    }, [start, max, count])
+        localStorage.setItem('errorValue', error)
+    }, [start, max, count, error])
 
-
-    const addOne = () => {
-        if (count < max) {
-            setCount(count + 1)
+    //CounterSettings input callbacks
+    const startValueHandler = (value: number) => {
+        setEditMode(true)
+        setStart(value)
+        if (value < 0 || value >= max || max < 0) {
+            setError('Incorrect value!')
+            return
         }
+        setError('')
     }
-
-    const setToStart = () => setCount(start)
-
-    const setValuesHandler = () => {
-        setCount(start)
-        setSettings(false)
-    }
-
     const maxValueHandler = (value: number) => {
-        setSettings(true)
+        setEditMode(true)
         setMax(value)
         if (value < 0 || value <= start || start < 0) {
             setError('Incorrect value!')
@@ -53,49 +51,32 @@ function App() {
         setError('')
     }
 
-    const startValueHandler = (value: number) => {
-        setSettings(true)
-        setStart(value)
-        if (value < 0 || value >= max || max < 0) {
-            setError('Incorrect value!')
-            return
-        }
-        setError('')
+    //CounterSettings button callbacks
+    const setValuesHandler = () => {
+        setCount(start)
+        setEditMode(false)
     }
 
-    const counterContent = error ? <span className={classes.errorMessage}>{error}</span> :
-        settings ? <span className={classes.message}>{'enter values and press "set"'}</span> :
-            <Counter count={count} max={max}/>
+    //Counter button callbacks
+    const addOne = () => setCount(count + 1)
+    const setToStart = () => setCount(start)
 
     return (
         <div className={classes.App}>
-            <div className={classes.container}>
-                <div className={`${classes.content} ${classes.values}`}>
-                    <div className={classes.value}>
-                        <span>max value:</span>
-                        <NumberInput value={max} callback={maxValueHandler} className={max < 0 || max <= start ? classes.inputError : ''}/>
-                    </div>
-                    <div className={classes.value}>
-                        <span>start value:</span>
-                        <NumberInput value={start} callback={startValueHandler} className={start < 0 || start >= max ? classes.inputError : ''}/>
-                    </div>
-                </div>
-                <div className={classes.buttonContainer}>
-                    <Button title={'set'} callback={setValuesHandler} disabled={!!error || !settings}/>
-                </div>
-            </div>
-
-
-            <div className={classes.container}>
-                <div className={classes.content}>
-                    {counterContent}
-                </div>
-                <div className={classes.buttonContainer}>
-                    <Button title={'inc'} callback={addOne} disabled={count === max || settings}/>
-                    <Button title={'reset'} callback={setToStart} disabled={count === start || settings}/>
-                </div>
-            </div>
-
+            <CounterSettings start={start}
+                             max={max}
+                             error={error}
+                             editMode={editMode}
+                             startValueHandler={startValueHandler}
+                             maxValueHandler={maxValueHandler}
+                             setValuesHandler={setValuesHandler}/>
+            <Counter start={start}
+                     max={max}
+                     count={count}
+                     error={error}
+                     editMode={editMode}
+                     addOne={addOne}
+                     setToStart={setToStart}/>
         </div>
     );
 }
