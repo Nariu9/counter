@@ -16,26 +16,22 @@ function App() {
     useEffect(() => {
         const startString = localStorage.getItem('startValue')
         startString && setStart(JSON.parse(startString))
+        //startString && setCount(JSON.parse(startString))
         const maxString = localStorage.getItem('maxValue')
         maxString && setMax(JSON.parse(maxString))
-        const countString = localStorage.getItem('startValue')
+        const countString = localStorage.getItem('countValue')
         countString && setCount(JSON.parse(countString))
-        const errorString = localStorage.getItem('errorValue')
-        errorString && setError(errorString)
     }, [])
 
     useEffect(() => {
-        localStorage.setItem('startValue', JSON.stringify(start))
-        localStorage.setItem('maxValue', JSON.stringify(max))
         localStorage.setItem('countValue', JSON.stringify(count))
-        localStorage.setItem('errorValue', error)
-    }, [start, max, count, error])
+    }, [start, max, count])
 
     //CounterSettings input callbacks
     const startValueHandler = (value: number) => {
         setEditMode(true)
         setStart(value)
-        if (value < 0 || value >= max || max < 0) {
+        if (value < 0 || value >= max) {
             setError('Incorrect value!')
             return
         }
@@ -44,7 +40,7 @@ function App() {
     const maxValueHandler = (value: number) => {
         setEditMode(true)
         setMax(value)
-        if (value < 0 || value <= start || start < 0) {
+        if (value < 0 || value <= start) {
             setError('Incorrect value!')
             return
         }
@@ -55,6 +51,8 @@ function App() {
     const setValuesHandler = () => {
         setCount(start)
         setEditMode(false)
+        localStorage.setItem('startValue', JSON.stringify(start))
+        localStorage.setItem('maxValue', JSON.stringify(max))
     }
 
     //Counter button callbacks
