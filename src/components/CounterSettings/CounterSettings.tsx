@@ -2,12 +2,12 @@ import classes from "../../App.module.css";
 import {NumberInput} from "../NumberInput/NumberInput";
 import {Button} from "../Button/Button";
 import React from "react";
+import {NavLink} from "react-router-dom";
 
 type CounterSettingsPropsType = {
     start: number
     max: number
     error: string
-    editMode: boolean
     startValueHandler: (value: number) => void
     maxValueHandler: (value: number) => void
     setValuesHandler: () => void
@@ -16,11 +16,15 @@ export const CounterSettings = ({
                                     start,
                                     max,
                                     error,
-                                    editMode,
                                     startValueHandler,
                                     maxValueHandler,
                                     setValuesHandler
                                 }: CounterSettingsPropsType) => {
+
+    const setValues = error
+        ? <Button disabled={!!error}>set</Button>
+        : <Button onClick={setValuesHandler}><NavLink to={'/counter'}>set</NavLink></Button>
+
     return (
         <div className={classes.container}>
             <div className={`${classes.content} ${classes.values}`}>
@@ -38,9 +42,7 @@ export const CounterSettings = ({
                 </div>
             </div>
             <div className={classes.buttonContainer}>
-                <Button title={'set'}
-                        callback={setValuesHandler}
-                        disabled={!!error || !editMode}/>
+                {setValues}
             </div>
         </div>
     )

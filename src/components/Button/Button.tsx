@@ -1,20 +1,13 @@
-import React from 'react';
+import React, {ButtonHTMLAttributes, DetailedHTMLProps} from 'react';
 import classes from "./Button.module.css";
 
-type ButtonPropsType = {
-    title: string
-    callback: () => void
-    disabled?: boolean
-    className?: string
-}
 
-export const Button = ({title, callback, disabled, className}: ButtonPropsType) => {
+type DefaultButtonPropsType = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
 
-    const onclickHandler = () => callback()
+export const Button = ({className, ...restProps}: DefaultButtonPropsType) => {
 
-    return <button onClick={onclickHandler}
-                   disabled={disabled}
-                   className={`${classes.myButton} ${className ? className : ''}`}>{title}</button>
+    return <button className={`${classes.myButton} ${className ? className : ''}`}
+                   {...restProps}/>
 };
 
 // className={`${classes.myButton} ${props.className && props.className}`}  // если класс не приходит, остаётся строка false, что не ок!

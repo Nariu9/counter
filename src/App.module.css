@@ -1,8 +1,6 @@
 .App {
-  margin: 0 auto;
-  max-width: 60%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   text-align: center;
 }
@@ -68,7 +66,7 @@
 
 .errorMessage {
   color: red;
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: bold;
 }
 

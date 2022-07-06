@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import classes from "./App.module.css";
 import {CounterSettings} from "./components/CounterSettings/CounterSettings";
 import {Counter} from "./components/Counter/Counter";
+import {Navigate, Route, Routes} from "react-router-dom";
 
 
 function App() {
@@ -36,7 +37,7 @@ function App() {
         setEditMode(true)
         setStart(value)
         if (value < 0 || value >= max || max < 0) {
-            setError('Incorrect value!')
+            setError('Go back to "set" and set the correct value!')
             return
         }
         setError('')
@@ -45,7 +46,7 @@ function App() {
         setEditMode(true)
         setMax(value)
         if (value < 0 || value <= start || start < 0) {
-            setError('Incorrect value!')
+            setError('Go back to "set" and set the correct value!')
             return
         }
         setError('')
@@ -63,20 +64,23 @@ function App() {
 
     return (
         <div className={classes.App}>
-            <CounterSettings start={start}
-                             max={max}
-                             error={error}
-                             editMode={editMode}
-                             startValueHandler={startValueHandler}
-                             maxValueHandler={maxValueHandler}
-                             setValuesHandler={setValuesHandler}/>
-            <Counter start={start}
-                     max={max}
-                     count={count}
-                     error={error}
-                     editMode={editMode}
-                     addOne={addOne}
-                     setToStart={setToStart}/>
+            <Routes>
+                <Route path={'/'} element={<Navigate to={'/counter'}/>}/>
+
+                <Route path={'/counter-settings'} element={<CounterSettings start={start}
+                                                                            max={max}
+                                                                            error={error}
+                                                                            startValueHandler={startValueHandler}
+                                                                            maxValueHandler={maxValueHandler}
+                                                                            setValuesHandler={setValuesHandler}/>}/>
+                <Route path={'/counter'} element={<Counter start={start}
+                                                           max={max}
+                                                           count={count}
+                                                           error={error}
+                                                           editMode={editMode}
+                                                           addOne={addOne}
+                                                           setToStart={setToStart}/>}/>
+            </Routes>
         </div>
     );
 }
