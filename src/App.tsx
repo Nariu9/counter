@@ -17,20 +17,16 @@ function App() {
     useEffect(() => {
         const startString = localStorage.getItem('startValue')
         startString && setStart(JSON.parse(startString))
+        startString && setCount(JSON.parse(startString))
         const maxString = localStorage.getItem('maxValue')
         maxString && setMax(JSON.parse(maxString))
-        const countString = localStorage.getItem('startValue')
-        countString && setCount(JSON.parse(countString))
-        const errorString = localStorage.getItem('errorValue')
-        errorString && setError(errorString)
+        //const countString = localStorage.getItem('startValue')
+        //countString && setCount(JSON.parse(countString))
     }, [])
 
     useEffect(() => {
-        localStorage.setItem('startValue', JSON.stringify(start))
-        localStorage.setItem('maxValue', JSON.stringify(max))
         localStorage.setItem('countValue', JSON.stringify(count))
-        localStorage.setItem('errorValue', error)
-    }, [start, max, count, error])
+    }, [start, max, count])
 
     //CounterSettings input callbacks
     const startValueHandler = (value: number) => {
@@ -56,6 +52,8 @@ function App() {
     const setValuesHandler = () => {
         setCount(start)
         setEditMode(false)
+        localStorage.setItem('startValue', JSON.stringify(start))
+        localStorage.setItem('maxValue', JSON.stringify(max))
     }
 
     //Counter button callbacks
