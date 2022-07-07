@@ -2,7 +2,7 @@ import classes from "../../App.module.css";
 import {NumberInput} from "../NumberInput/NumberInput";
 import {Button} from "../Button/Button";
 import React from "react";
-import {NavLink} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 type CounterSettingsPropsType = {
     start: number
@@ -21,9 +21,12 @@ export const CounterSettings = ({
                                     setValuesHandler
                                 }: CounterSettingsPropsType) => {
 
-    const setValues = error
-        ? <Button disabled={!!error}>set</Button>
-        : <Button onClick={setValuesHandler}><NavLink to={'/counter'}>set</NavLink></Button>
+    const navigate = useNavigate()
+
+    const onSetValues = () => {
+        setValuesHandler()
+        navigate('/counter')
+    }
 
     return (
         <div className={classes.container}>
@@ -42,7 +45,7 @@ export const CounterSettings = ({
                 </div>
             </div>
             <div className={classes.buttonContainer}>
-                {setValues}
+                <Button onClick={onSetValues} disabled={!!error}>set</Button>
             </div>
         </div>
     )

@@ -2,7 +2,7 @@ import React from "react";
 import {Count} from "./Count/Count";
 import {Button} from "../Button/Button";
 import classes from "../../App.module.css";
-import {NavLink} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 type CounterPropsType = {
     start: number
@@ -23,10 +23,11 @@ export const Counter = ({
                             setToStart
                         }: CounterPropsType) => {
 
+    const navigate = useNavigate()
     const counterContent = error
         ? <span className={classes.errorMessage}>{error}</span>
         : editMode
-            ? <span className={classes.message}>{'press "set" and set the start and maximum value'}</span>
+            ? <span className={classes.message}>{'go back and press "set"'}</span>
             : <Count count={count} max={max}/>
 
     return (
@@ -39,7 +40,7 @@ export const Counter = ({
                         disabled={count === max || editMode || !!error}>inc</Button>
                 <Button onClick={setToStart}
                         disabled={count === start || editMode || !!error}>reset</Button>
-                <Button><NavLink to={'/counter-settings'}>set</NavLink></Button>
+                <Button onClick={()=>navigate('/counter-settings')}>set</Button>
             </div>
         </div>
     )
