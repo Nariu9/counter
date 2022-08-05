@@ -49,7 +49,7 @@ function App() {
 
     //Counter button callbacks
     const addOne = () => setCount(count + 1)
-    const setToStart = () => setCount(start)
+    const resetCount = () => setCount(start)
 
 
     return (
@@ -66,7 +66,7 @@ function App() {
                            max={max}
                            count={count}
                            addOne={addOne}
-                           setToStart={setToStart}
+                           resetCount={resetCount}
                            setEditMode={setEditMode}/>}
 
         </div>
