@@ -1,7 +1,8 @@
-import classes from '../../App.module.css';
 import {NumberInput} from '../NumberInput/NumberInput';
 import {Button} from '../Button/Button';
 import React from 'react';
+import classes from './CounterSettings.module.css';
+import styleContainers from '../../common/styles/Container.module.css'
 
 type CounterSettingsPropsType = {
     start: number
@@ -28,8 +29,8 @@ export const CounterSettings: React.FC<CounterSettingsPropsType> = ({
     }
 
     return (
-        <div className={classes.container}>
-            <div className={`${classes.content} ${classes.values}`}>
+        <div className={styleContainers.container}>
+            <div className={`${styleContainers.content} ${classes.values}`}>
                 <div className={classes.value}>
                     <span>max value:</span>
                     <NumberInput value={max}
@@ -43,7 +44,7 @@ export const CounterSettings: React.FC<CounterSettingsPropsType> = ({
                                  className={start < 0 || start >= max ? classes.inputError : ''}/>
                 </div>
             </div>
-            <div className={classes.buttonContainer}>
+            <div className={styleContainers.buttonContainer}>
                 <Button onClick={onSetValues} disabled={error}>set</Button>
             </div>
         </div>
