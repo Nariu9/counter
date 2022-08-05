@@ -1,46 +1,35 @@
-import React from "react";
-import {Count} from "./Count/Count";
-import {Button} from "../Button/Button";
-import classes from "../../App.module.css";
-import {useNavigate} from "react-router-dom";
+import React from 'react';
+import {Count} from './Count/Count';
+import {Button} from '../Button/Button';
+import classes from '../../App.module.css';
 
 type CounterPropsType = {
     start: number
     max: number
     count: number
-    error: string
-    editMode: boolean
     addOne: () => void
     setToStart: () => void
+    setEditMode: (editMode: boolean) => void
 }
-export const Counter = ({
-                            start,
-                            max,
-                            count,
-                            error,
-                            editMode,
-                            addOne,
-                            setToStart
-                        }: CounterPropsType) => {
-
-    const navigate = useNavigate()
-    const counterContent = error
-        ? <span className={classes.errorMessage}>{error}</span>
-        : editMode
-            ? <span className={classes.message}>{'go back and press "set"'}</span>
-            : <Count count={count} max={max}/>
-
+export const Counter: React.FC<CounterPropsType> = ({
+                                                        start,
+                                                        max,
+                                                        count,
+                                                        addOne,
+                                                        setToStart,
+                                                        setEditMode
+                                                    }) => {
     return (
         <div className={classes.container}>
             <div className={classes.content}>
-                {counterContent}
+                <Count count={count} max={max}/>
             </div>
             <div className={classes.buttonContainer}>
                 <Button onClick={addOne}
-                        disabled={count === max || editMode || !!error}>inc</Button>
+                        disabled={count === max}>inc</Button>
                 <Button onClick={setToStart}
-                        disabled={count === start || editMode || !!error}>reset</Button>
-                <Button onClick={()=>navigate('/counter-settings')}>set</Button>
+                        disabled={count === start}>reset</Button>
+                <Button onClick={() => setEditMode(true)}>set</Button>
             </div>
         </div>
     )

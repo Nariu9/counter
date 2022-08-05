@@ -1,31 +1,30 @@
-import classes from "../../App.module.css";
-import {NumberInput} from "../NumberInput/NumberInput";
-import {Button} from "../Button/Button";
-import React from "react";
-import {useNavigate} from "react-router-dom";
+import classes from '../../App.module.css';
+import {NumberInput} from '../NumberInput/NumberInput';
+import {Button} from '../Button/Button';
+import React from 'react';
 
 type CounterSettingsPropsType = {
     start: number
     max: number
-    error: string
+    error: boolean
     startValueHandler: (value: number) => void
     maxValueHandler: (value: number) => void
     setValuesHandler: () => void
+    setEditMode: (editMode: boolean) => void
 }
-export const CounterSettings = ({
-                                    start,
-                                    max,
-                                    error,
-                                    startValueHandler,
-                                    maxValueHandler,
-                                    setValuesHandler
-                                }: CounterSettingsPropsType) => {
-
-    const navigate = useNavigate()
+export const CounterSettings: React.FC<CounterSettingsPropsType> = ({
+                                                                        start,
+                                                                        max,
+                                                                        error,
+                                                                        startValueHandler,
+                                                                        maxValueHandler,
+                                                                        setValuesHandler,
+                                                                        setEditMode
+                                                                    }) => {
 
     const onSetValues = () => {
         setValuesHandler()
-        navigate('/counter')
+        setEditMode(false)
     }
 
     return (
@@ -45,7 +44,7 @@ export const CounterSettings = ({
                 </div>
             </div>
             <div className={classes.buttonContainer}>
-                <Button onClick={onSetValues} disabled={!!error}>set</Button>
+                <Button onClick={onSetValues} disabled={error}>set</Button>
             </div>
         </div>
     )
