@@ -1,4 +1,4 @@
-type CounterStateType = {
+export type CounterStateType = {
     start: number
     max: number
     count: number
