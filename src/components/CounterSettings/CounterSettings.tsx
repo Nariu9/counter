@@ -3,31 +3,43 @@ import {Button} from '../Button/Button';
 import React from 'react';
 import classes from './CounterSettings.module.css';
 import styleContainers from '../../common/styles/Container.module.css'
+import {useDispatch, useSelector} from 'react-redux';
+import {ReduxStateType} from '../../store/store';
+import {
+    CounterStateType,
+    resetAC,
+    setErrorAC,
+    setMaxAC,
+    setStartAC,
+    toggleSettingsAC
+} from '../../store/counter-reducer';
 
-type CounterSettingsPropsType = {
-    start: number
-    max: number
-    error: boolean
-    startValueHandler: (value: number) => void
-    maxValueHandler: (value: number) => void
-    setValuesHandler: () => void
-    setEditMode: (editMode: boolean) => void
-}
-export const CounterSettings: React.FC<CounterSettingsPropsType> = ({
-                                                                        start,
-                                                                        max,
-                                                                        error,
-                                                                        startValueHandler,
-                                                                        maxValueHandler,
-                                                                        setValuesHandler,
-                                                                        setEditMode
-                                                                    }) => {
+export const CounterSettings: React.FC = () => {
 
     const onSetValues = () => {
-        setValuesHandler()
-        setEditMode(false)
+        dispatch(resetAC())
+        dispatch(toggleSettingsAC(false))
     }
+    const state = useSelector<ReduxStateType, CounterStateType>(state => state.counter)
+    const {start, max, error, editMode, ...restData} = state
+    const dispatch = useDispatch()
 
+    const maxValueHandler = (value: number) => {
+        dispatch(setMaxAC(value))
+        if (value < 0 || value <= start || start < 0) {
+            dispatch(setErrorAC(true))
+            return
+        }
+        error && dispatch(setErrorAC(false))
+    }
+    const startValueHandler = (value: number) => {
+        dispatch(setStartAC(value))
+        if (value < 0 || value >= max) {
+            dispatch(setErrorAC(true))
+            return
+        }
+        error && dispatch(setErrorAC(false))
+    }
     return (
         <div className={styleContainers.container}>
             <div className={`${styleContainers.content} ${classes.values}`}>

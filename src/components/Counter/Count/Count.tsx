@@ -1,12 +1,12 @@
-import React from "react";
-import classes from "./Count.module.css";
+import React from 'react';
+import classes from './Count.module.css';
 
 type CountPropsType = {
     count: number
     max: number
 }
 
-export const Count = ({count, max}: CountPropsType) => {
+export const Count: React.FC<CountPropsType> = ({count, max}) => {
     return <span
         className={`${classes.counter} ${count === max && classes.red}`}>{count}</span>
 }
