@@ -19,16 +19,16 @@ export const CounterSettings = () => {
     const dispatch = useDispatch()
 
     const maxValueHandler = (value: number) => {
-        dispatch(setEditModeAC(true))
+        !editMode && dispatch(setEditModeAC(true))
         dispatch(setMaxAC(value))
         if (value < 0 || value <= start || start < 0) {
             dispatch(setErrorAC(true))
             return
         }
-        counterState.error && dispatch(setErrorAC(false))
+        error && dispatch(setErrorAC(false))
     }
     const startValueHandler = (value: number) => {
-        dispatch(setEditModeAC(true))
+        !editMode && dispatch(setEditModeAC(true))
         dispatch(setStartAC(value))
         if (value < 0 || value >= max) {
             dispatch(setErrorAC(true))
