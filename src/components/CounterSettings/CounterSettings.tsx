@@ -2,25 +2,47 @@ import classes from "../../App.module.css";
 import {NumberInput} from "../NumberInput/NumberInput";
 import {Button} from "../Button/Button";
 import React from "react";
+import {useDispatch, useSelector} from 'react-redux';
+import {ReduxStateType} from '../../state/store';
+import {
+    CounterStateType,
+    resetToStartAC,
+    setEditModeAC,
+    setErrorAC,
+    setMaxAC,
+    setStartAC
+} from '../../state/counter-reducer';
 
-type CounterSettingsPropsType = {
-    start: number
-    max: number
-    error: string
-    editMode: boolean
-    startValueHandler: (value: number) => void
-    maxValueHandler: (value: number) => void
-    setValuesHandler: () => void
-}
-export const CounterSettings = ({
-                                    start,
-                                    max,
-                                    error,
-                                    editMode,
-                                    startValueHandler,
-                                    maxValueHandler,
-                                    setValuesHandler
-                                }: CounterSettingsPropsType) => {
+export const CounterSettings = () => {
+    const counterState = useSelector<ReduxStateType, CounterStateType>(state => state.counter)
+    const {start, max, error, editMode} = counterState
+    const dispatch = useDispatch()
+
+    const maxValueHandler = (value: number) => {
+        dispatch(setEditModeAC(true))
+        dispatch(setMaxAC(value))
+        if (value < 0 || value <= start || start < 0) {
+            dispatch(setErrorAC(true))
+            return
+        }
+        counterState.error && dispatch(setErrorAC(false))
+    }
+    const startValueHandler = (value: number) => {
+        dispatch(setEditModeAC(true))
+        dispatch(setStartAC(value))
+        if (value < 0 || value >= max) {
+            dispatch(setErrorAC(true))
+            return
+        }
+        error && dispatch(setErrorAC(false))
+    }
+    const setValuesHandler = () => {
+        dispatch(resetToStartAC())
+        dispatch(setEditModeAC(false))
+
+    }
+
+
     return (
         <div className={classes.container}>
             <div className={`${classes.content} ${classes.values}`}>
@@ -40,7 +62,7 @@ export const CounterSettings = ({
             <div className={classes.buttonContainer}>
                 <Button title={'set'}
                         callback={setValuesHandler}
-                        disabled={!!error || !editMode}/>
+                        disabled={error || !editMode}/>
             </div>
         </div>
     )
