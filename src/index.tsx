@@ -17,7 +17,15 @@ store.subscribe(throttle(()=>{
 
 
 /*store.subscribe(throttle(()=>{
-    saveState(store.getState())
+    saveState({
+        counter: {
+            start: store.getState().counter.start,
+            max: store.getState().counter.max,
+            count: store.getState().counter.start,
+            error: false,
+            editMode: false
+        }
+    })
 }, 1000))*/
 
 const root = ReactDOM.createRoot(

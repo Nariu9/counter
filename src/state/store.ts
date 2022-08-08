@@ -21,6 +21,8 @@ const persistedState = {
         editMode: false
     }
 }
+
+/*const persistedState = loadState()*/
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = legacy_createStore(rootReducer, persistedState, composeEnhancers())
 
