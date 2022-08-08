@@ -9,10 +9,18 @@ declare global {
 }
 
 const rootReducer = combineReducers({
-    counter: counterReducer
+    counter: counterReducer,
 })
-
-const persistedState = loadState()
+const loadedState = loadState()
+const persistedState = {
+    counter: {
+        start: loadedState.start,
+        max: loadedState.max,
+        count: loadedState.start,
+        error: false,
+        editMode: false
+    }
+}
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = legacy_createStore(rootReducer, persistedState, composeEnhancers())
 

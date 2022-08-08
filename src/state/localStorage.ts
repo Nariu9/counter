@@ -12,7 +12,17 @@ export const loadState = () => {
     }
 }
 
-export const saveState = (state: ReduxStateType) => {
+/*export const saveState = (state: ReduxStateType) => {
+    try {
+        const serializedState = JSON.stringify(state)
+        localStorage.setItem('state', serializedState)
+    } catch (error) {
+        console.log(error)
+        //Ignore write errors.
+    }
+}*/
+
+export const saveState = (state: {start: number, max: number}) => {
     try {
         const serializedState = JSON.stringify(state)
         localStorage.setItem('state', serializedState)

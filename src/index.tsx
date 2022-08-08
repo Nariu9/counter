@@ -8,10 +8,17 @@ import {store} from './state/store';
 import {saveState} from './state/localStorage';
 import throttle from 'lodash.throttle';
 
-
 store.subscribe(throttle(()=>{
-    saveState(store.getState())
+    saveState({
+        start: store.getState().counter.start,
+        max: store.getState().counter.max
+    })
 }, 1000))
+
+
+/*store.subscribe(throttle(()=>{
+    saveState(store.getState())
+}, 1000))*/
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
