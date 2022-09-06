@@ -1,9 +1,9 @@
-import {ReduxStateType} from './store';
+import {AppStateType} from '../state/store';
 
 export const loadState = () => {
     try {
         const serializedState = localStorage.getItem('state')
-        if (serializedState === null) {
+        if (!serializedState) {
             return undefined
         }
         return JSON.parse(serializedState)
@@ -12,17 +12,7 @@ export const loadState = () => {
     }
 }
 
-/*export const saveState = (state: ReduxStateType) => {
-    try {
-        const serializedState = JSON.stringify(state)
-        localStorage.setItem('state', serializedState)
-    } catch (error) {
-        console.log(error)
-        //Ignore write errors.
-    }
-}*/
-
-export const saveState = (state: {start: number, max: number}) => {
+export const saveState = (state: AppStateType) => {
     try {
         const serializedState = JSON.stringify(state)
         localStorage.setItem('state', serializedState)
