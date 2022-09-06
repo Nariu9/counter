@@ -15,7 +15,7 @@ type ActionType = ReturnType<typeof setStartAC>
 
 const initialState: CounterStateType = {
     start: 0,
-    max: 0,
+    max: 5,
     count: 0,
     error: false,
     editMode: false

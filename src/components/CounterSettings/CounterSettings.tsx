@@ -3,7 +3,7 @@ import {NumberInput} from '../NumberInput/NumberInput';
 import {Button} from '../Button/Button';
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {ReduxStateType} from '../../state/store';
+import {AppStateType} from '../../state/store';
 import {
     CounterStateType,
     resetToStartAC,
@@ -15,7 +15,7 @@ import {
 
 export const CounterSettings = () => {
 
-    const counterState = useSelector<ReduxStateType, CounterStateType>(state => state.counter)
+    const counterState = useSelector<AppStateType, CounterStateType>(state => state.counter)
     const {start, max, error, editMode} = counterState
     const dispatch = useDispatch()
     const [_start, _setStart] = useState<number>(start)
@@ -25,7 +25,6 @@ export const CounterSettings = () => {
         _setMax(value)
         !editMode && dispatch(setEditModeAC(true))
         if (value > 0 && value > _start && _start >= 0) {
-            dispatch(setMaxAC(value))
             error && dispatch(setErrorAC(false))
         } else {
             !error && dispatch(setErrorAC(true))
@@ -35,13 +34,14 @@ export const CounterSettings = () => {
         _setStart(value)
         !editMode && dispatch(setEditModeAC(true))
         if (value >= 0 && value < _max) {
-            dispatch(setStartAC(value))
             error && dispatch(setErrorAC(false))
         } else {
             !error && dispatch(setErrorAC(true))
         }
     }
     const setValuesHandler = () => {
+        dispatch(setMaxAC(_max))
+        dispatch(setStartAC(_start))
         dispatch(resetToStartAC())
         dispatch(setEditModeAC(false))
     }

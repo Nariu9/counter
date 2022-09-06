@@ -3,12 +3,12 @@ import {Count} from './Count/Count';
 import {Button} from '../Button/Button';
 import classes from '../../App.module.css';
 import {useDispatch, useSelector} from 'react-redux';
-import {ReduxStateType} from '../../state/store';
+import {AppStateType} from '../../state/store';
 import {CounterStateType, incrementAC, resetToStartAC} from '../../state/counter-reducer';
 
 export const Counter = () => {
 
-    const counterState = useSelector<ReduxStateType, CounterStateType>(state => state.counter)
+    const counterState = useSelector<AppStateType, CounterStateType>(state => state.counter)
     const {start, max, count, error, editMode} = counterState
     const dispatch = useDispatch()
 
