@@ -5,15 +5,17 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from 'react-redux';
 import {store} from './store/store';
-import {saveState} from './store/loaclStorage';
+/*
+import {saveState} from './store/localStorage';
 import {throttle} from 'lodash';
+*/
 
 
-store.subscribe(throttle(()=> {
+/*store.subscribe(throttle(()=> {
     saveState({
         counter: store.getState().counter
     })
-}, 1000))
+}, 1000))*/
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
