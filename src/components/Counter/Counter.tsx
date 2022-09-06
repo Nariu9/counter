@@ -8,9 +8,9 @@ import {CounterStateType, incrementAC, resetAC, toggleSettingsAC} from '../../st
 
 export const Counter: React.FC = () => {
     const state = useSelector<ReduxStateType, CounterStateType>(state => state.counter)
-    const {start, max, count, ...restData} = state
+    const {start, max, count} = state
     const dispatch = useDispatch()
-    const incrementCount = () => dispatch(incrementAC(count))
+    const incrementCount = () => dispatch(incrementAC())
     const resetCount = () => dispatch(resetAC())
     const onEditMode = () => dispatch(toggleSettingsAC(true))
 

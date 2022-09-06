@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import classes from './Count.module.css';
+import {useAppDispatch} from '../../../store/hooks';
+import {getMaxFromLSTC, getStartFromLSTC} from '../../../store/counter-reducer';
 
 type CountPropsType = {
     count: number
@@ -7,6 +9,13 @@ type CountPropsType = {
 }
 
 export const Count: React.FC<CountPropsType> = ({count, max}) => {
+
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        dispatch(getStartFromLSTC())
+        dispatch(getMaxFromLSTC())
+    }, [dispatch])
+
     return <span
         className={`${classes.counter} ${count === max && classes.red}`}>{count}</span>
 }
