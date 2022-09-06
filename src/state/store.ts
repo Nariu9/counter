@@ -1,6 +1,7 @@
 import {combineReducers, compose, legacy_createStore} from 'redux';
 import {counterReducer} from './counter-reducer';
-import {loadState} from './localStorage';
+import {loadState, saveState} from '../utils/localStorage-utils';
+import throttle from 'lodash.throttle';
 
 declare global {
     interface Window {
@@ -11,22 +12,23 @@ declare global {
 const rootReducer = combineReducers({
     counter: counterReducer,
 })
-const loadedState = loadState()
-const persistedState = {
-    counter: {
-        start: loadedState.start,
-        max: loadedState.max,
-        count: loadedState.start,
-        error: false,
-        editMode: false
-    }
-}
 
-/*const persistedState = loadState()*/
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-export const store = legacy_createStore(rootReducer, persistedState, composeEnhancers())
+export const store = legacy_createStore(rootReducer, loadState(), composeEnhancers())
 
-export type ReduxStateType = ReturnType<typeof rootReducer>
+store.subscribe(throttle(() => {
+    saveState({
+        counter: {
+            start: store.getState().counter.start,
+            max: store.getState().counter.max,
+            count: store.getState().counter.start,
+            error: false,
+            editMode: false
+        }
+    })
+}, 1000))
+
+export type AppStateType = ReturnType<typeof rootReducer>
 
 // @ts-ignore
 window.store = store
